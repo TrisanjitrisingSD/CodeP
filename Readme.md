@@ -266,7 +266,7 @@ These are already understood by the parser/tokenizer — they just need to be wi
 
 ## 🤝 Contributing
 
-Issues and PRs are welcome. If you add a new language feature, please make sure it's supported end-to-end: tokenizer → parser → interpreter (and ideally the generator too).
+Issues and PRs are welcome. If you add a new language feature, please make sure it's supported end-to-end: tokenizer → parser → interpreter.
 
 ---
 
