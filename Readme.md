@@ -30,7 +30,6 @@
 - [Project Structure](#-project-structure)
 - [Roadmap](#-roadmap)
 - [Contributing](#-contributing)
-- [License](#-license)
 
 ---
 
@@ -38,7 +37,7 @@
 
 **CodeP** is a small interpreted language implemented in JavaScript. It has its own tokenizer, recursive-descent parser, tree-walking interpreter, and a code generator that can convert the AST back into JavaScript.
 
-Syntax will feel instantly familiar if you know JavaScript — the main difference is `tri` instead of `let`, and a couple of other naming choices.
+Syntax will feel instantly familiar if you know JavaScript — the main difference is couple of other naming choices.
 
 ```js
 tri x = 5;
@@ -271,6 +270,26 @@ Issues and PRs are welcome. If you add a new language feature, please make sure 
 
 ---
 
-## 📄 License
+# Author
 
-MIT — do whatever you want with it.
+**Trisanjit Das**
+
+Artificial Intelligence • Full Stack Development • DSA
+
+GitHub:
+```
+https://github.com/TrisanjitrisingSD
+```
+LinkedIn:
+```
+https://www.linkedin.com/in/trisanjit-das-60482728b
+```
+---
+
+<div align="center">
+
+### ⭐ Thank you for visiting CodeP !
+
+**Happy Learning!**
+
+</div>
