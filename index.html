@@ -1,654 +1,814 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>CodeP — Playground</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg: #0B0E14;
-    --panel: #10141C;
-    --panel-2: #141924;
-    --border: #232A3A;
-    --border-soft: #1B2130;
-    --text: #E7EAF0;
-    --text-dim: #8A93A8;
-    --text-faint: #565F76;
-    --amber: #FFB454;
-    --amber-dim: #7A5A26;
-    --mint: #6EE7B7;
-    --red: #FF6B6B;
-    --red-dim: #4A2626;
-    --radius: 10px;
-    --mono: 'JetBrains Mono', ui-monospace, monospace;
-    --display: 'Space Grotesk', sans-serif;
-    --body: 'Inter', sans-serif;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeP — Playground</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0B0E14;
+      --panel: #10141C;
+      --panel-2: #141924;
+      --border: #232A3A;
+      --border-soft: #1B2130;
+      --text: #E7EAF0;
+      --text-dim: #8A93A8;
+      --text-faint: #565F76;
+      --amber: #FFB454;
+      --amber-dim: #7A5A26;
+      --mint: #6EE7B7;
+      --red: #FF6B6B;
+      --red-dim: #4A2626;
+      --radius: 10px;
+      --mono: 'JetBrains Mono', ui-monospace, monospace;
+      --display: 'Space Grotesk', sans-serif;
+      --body: 'Inter', sans-serif;
+    }
 
-  *{ box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
-  html,body{
-    margin:0; padding:0; height:100%;
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--body);
-    -webkit-font-smoothing: antialiased;
-  }
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      -webkit-font-smoothing: antialiased;
+    }
 
-  body{
-    background-image:
-      radial-gradient(circle at 15% 0%, rgba(255,180,84,0.05), transparent 40%),
-      radial-gradient(circle at 85% 100%, rgba(110,231,183,0.04), transparent 45%);
-  }
+    body {
+      background-image:
+        radial-gradient(circle at 15% 0%, rgba(255, 180, 84, 0.05), transparent 40%),
+        radial-gradient(circle at 85% 100%, rgba(110, 231, 183, 0.04), transparent 45%);
+    }
 
-  ::selection{ background: rgba(255,180,84,0.25); }
+    ::selection {
+      background: rgba(255, 180, 84, 0.25);
+    }
 
-  .app{
-    display:flex;
-    flex-direction:column;
-    height:100vh;
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 18px 22px 22px;
-  }
+    .app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 18px 22px 22px;
+    }
 
-  /* ---------- Top bar ---------- */
-  .topbar{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:16px;
-    padding-bottom: 16px;
-    flex-wrap: wrap;
-  }
+    /* ---------- Top bar ---------- */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 16px;
+      flex-wrap: wrap;
+    }
 
-  .brand{
-    display:flex;
-    align-items:baseline;
-    gap:10px;
-  }
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
 
-  .brand .mark{
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: 22px;
-    letter-spacing: -0.02em;
-    color: var(--text);
-  }
-  .brand .mark span{ color: var(--amber); }
+    .brand .mark {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
 
-  .brand .tagline{
-    font-size: 12.5px;
-    color: var(--text-faint);
-    font-family: var(--mono);
-  }
+    .brand .mark span {
+      color: var(--amber);
+    }
 
-  .topbar-actions{
-    display:flex;
-    align-items:center;
-    gap:10px;
-  }
+    .brand .tagline {
+      font-size: 12.5px;
+      color: var(--text-faint);
+      font-family: var(--mono);
+    }
 
-  button{
-    font-family: var(--body);
-    cursor:pointer;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--panel-2);
-    color: var(--text);
-    font-size: 13px;
-    font-weight: 500;
-    padding: 9px 14px;
-    transition: border-color .15s ease, background .15s ease, transform .1s ease;
-  }
-  button:hover{ border-color: #3A4256; background:#171D2A; }
-  button:active{ transform: translateY(1px); }
-  button:focus-visible{ outline: 2px solid var(--amber); outline-offset: 2px; }
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-  .btn-run{
-    background: var(--amber);
-    border-color: var(--amber);
-    color: #241804;
-    font-weight: 600;
-    padding: 9px 18px;
-    display:flex; align-items:center; gap:8px;
-  }
-  .btn-run:hover{ background:#ffc678; border-color:#ffc678; }
-  .btn-run:disabled{ opacity:.55; cursor: default; transform:none; }
-  .btn-run kbd{
-    font-family: var(--mono);
-    font-size: 10.5px;
-    background: rgba(0,0,0,0.18);
-    padding: 2px 5px;
-    border-radius: 4px;
-  }
+    button {
+      font-family: var(--body);
+      cursor: pointer;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 9px 14px;
+      transition: border-color .15s ease, background .15s ease, transform .1s ease;
+    }
 
-  /* ---------- Pipeline indicator (signature element) ---------- */
-  .pipeline{
-    display:flex;
-    align-items:center;
-    gap:0;
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.04em;
-  }
-  .stage{
-    display:flex;
-    align-items:center;
-    gap:7px;
-    padding: 7px 12px;
-    border: 1px solid var(--border);
-    color: var(--text-faint);
-    background: var(--panel-2);
-    position: relative;
-  }
-  .stage:first-child{ border-radius: 8px 0 0 8px; }
-  .stage:last-child{ border-radius: 0 8px 8px 0; }
-  .stage:not(:first-child){ border-left: none; }
-  .stage .dot{
-    width:6px; height:6px; border-radius:50%;
-    background: var(--text-faint);
-    transition: background .2s ease, box-shadow .2s ease;
-  }
-  .stage.active{ color: var(--amber); }
-  .stage.active .dot{
-    background: var(--amber);
-    box-shadow: 0 0 0 3px rgba(255,180,84,0.18);
-    animation: pulse 0.9s ease-in-out infinite;
-  }
-  .stage.done{ color: var(--mint); }
-  .stage.done .dot{ background: var(--mint); box-shadow:none; animation:none; }
-  .stage.error{ color: var(--red); }
-  .stage.error .dot{ background: var(--red); box-shadow: 0 0 0 3px rgba(255,107,107,0.2); animation:none; }
+    button:hover {
+      border-color: #3A4256;
+      background: #171D2A;
+    }
 
-  @keyframes pulse{
-    0%,100%{ box-shadow: 0 0 0 3px rgba(255,180,84,0.18); }
-    50%{ box-shadow: 0 0 0 6px rgba(255,180,84,0.05); }
-  }
+    button:active {
+      transform: translateY(1px);
+    }
 
-  /* ---------- Main layout ---------- */
-  .layout{
-    flex: 1;
-    display:grid;
-    grid-template-columns: 190px 1fr 1fr;
-    gap: 14px;
-    min-height: 0;
-  }
+    button:focus-visible {
+      outline: 2px solid var(--amber);
+      outline-offset: 2px;
+    }
 
-  .panel{
-    background: var(--panel);
-    border: 1px solid var(--border-soft);
-    border-radius: var(--radius);
-    display:flex;
-    flex-direction:column;
-    min-height: 0;
-    overflow:hidden;
-  }
+    .btn-run {
+      background: var(--amber);
+      border-color: var(--amber);
+      color: #241804;
+      font-weight: 600;
+      padding: 9px 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-  .panel-head{
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--border-soft);
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-faint);
-    display:flex;
-    align-items:center;
-    justify-content: space-between;
-  }
+    .btn-run:hover {
+      background: #ffc678;
+      border-color: #ffc678;
+    }
 
-  /* ---------- Sidebar / examples ---------- */
-  .sidebar .panel-head{ border-bottom: 1px solid var(--border-soft); }
-  .examples{
-    display:flex; flex-direction:column;
-    padding: 8px;
-    gap: 3px;
-    overflow-y:auto;
-  }
-  .example-btn{
-    text-align:left;
-    background: transparent;
-    border: 1px solid transparent;
-    color: var(--text-dim);
-    font-size: 12.5px;
-    padding: 9px 10px;
-    border-radius: 7px;
-  }
-  .example-btn:hover{ background: var(--panel-2); color: var(--text); border-color: var(--border-soft); }
-  .example-btn.active{ background: rgba(255,180,84,0.08); color: var(--amber); border-color: var(--amber-dim); }
-  .example-btn .ex-desc{
-    display:block;
-    font-family: var(--mono);
-    font-size: 10.5px;
-    color: var(--text-faint);
-    margin-top: 2px;
-  }
+    .btn-run:disabled {
+      opacity: .55;
+      cursor: default;
+      transform: none;
+    }
 
-  .sidebar-foot{
-    margin-top:auto;
-    padding: 12px 14px;
-    border-top: 1px solid var(--border-soft);
-    font-family: var(--mono);
-    font-size: 10.5px;
-    color: var(--text-faint);
-    line-height: 1.6;
-  }
-  .sidebar-foot b{ color: var(--text-dim); }
+    .btn-run kbd {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      background: rgba(0, 0, 0, 0.18);
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
 
-  /* ---------- Editor ---------- */
-  .editor-wrap{
-    flex:1;
-    display:flex;
-    min-height:0;
-  }
-  .gutter{
-    font-family: var(--mono);
-    font-size: 13px;
-    line-height: 21px;
-    color: #3D4459;
-    text-align: right;
-    padding: 14px 10px 14px 0;
-    user-select:none;
-    overflow:hidden;
-    background: var(--panel);
-    min-width: 38px;
-    white-space: pre;
-  }
-  #editor{
-    flex:1;
-    resize:none;
-    border:none;
-    outline:none;
-    background: transparent;
-    color: var(--text);
-    font-family: var(--mono);
-    font-size: 13px;
-    line-height: 21px;
-    padding: 14px 14px 14px 6px;
-    tab-size: 4;
-    white-space: pre;
-  }
+    /* ---------- Pipeline indicator (signature element) ---------- */
+    .pipeline {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+    }
 
-  /* ---------- Output ---------- */
-  .tabs{
-    display:flex;
-    gap: 2px;
-  }
-  .tab-btn{
-    background:transparent;
-    border: none;
-    border-radius: 6px;
-    color: var(--text-faint);
-    font-family: var(--mono);
-    font-size: 10.5px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 4px 9px;
-  }
-  .tab-btn:hover{ color: var(--text-dim); }
-  .tab-btn.active{ background: var(--panel-2); color: var(--amber); }
+    .stage {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 12px;
+      border: 1px solid var(--border);
+      color: var(--text-faint);
+      background: var(--panel-2);
+      position: relative;
+    }
 
-  .output-body{
-    flex:1;
-    overflow:auto;
-    padding: 14px;
-    font-family: var(--mono);
-    font-size: 12.5px;
-    line-height: 1.7;
-  }
+    .stage:first-child {
+      border-radius: 8px 0 0 8px;
+    }
 
-  .out-line{ white-space: pre-wrap; word-break: break-word; color: var(--text); }
+    .stage:last-child {
+      border-radius: 0 8px 8px 0;
+    }
 
-  .empty-state{
-    color: var(--text-faint);
-    font-family: var(--mono);
-    font-size: 12px;
-  }
+    .stage:not(:first-child) {
+      border-left: none;
+    }
 
-  .error-box{
-    border: 1px solid var(--red-dim);
-    background: rgba(255,107,107,0.06);
-    border-radius: 8px;
-    padding: 12px 14px;
-    color: #FFB3B3;
-  }
-  .error-box .err-stage{
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--red);
-    margin-bottom: 6px;
-  }
-  .error-box .err-msg{
-    font-family: var(--mono);
-    font-size: 12.5px;
-    color: #FFD4D4;
-  }
+    .stage .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-faint);
+      transition: background .2s ease, box-shadow .2s ease;
+    }
 
-  pre.code-view{
-    margin:0;
-    font-family: var(--mono);
-    font-size: 12px;
-    line-height: 1.7;
-    color: var(--text-dim);
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-  pre.code-view .k{ color: var(--amber); }
+    .stage.active {
+      color: var(--amber);
+    }
 
-  ::-webkit-scrollbar{ width:10px; height:10px; }
-  ::-webkit-scrollbar-track{ background: transparent; }
-  ::-webkit-scrollbar-thumb{ background: #232A3A; border-radius: 8px; }
-  ::-webkit-scrollbar-thumb:hover{ background: #2E3750; }
+    .stage.active .dot {
+      background: var(--amber);
+      box-shadow: 0 0 0 3px rgba(255, 180, 84, 0.18);
+      animation: pulse 0.9s ease-in-out infinite;
+    }
 
-  @media (max-width: 900px){
-    .layout{ grid-template-columns: 1fr; grid-auto-rows: auto; overflow-y:auto; }
-    .sidebar{ order:1; max-height: 160px; }
-    .examples{ flex-direction:row; flex-wrap:nowrap; overflow-x:auto; }
-    .example-btn{ min-width: 150px; }
-    #editor-panel{ order:2; min-height: 260px; }
-    #output-panel{ order:3; min-height: 260px; }
-    .app{ height:auto; min-height:100vh; }
-    .pipeline{ display:none; }
-  }
-</style>
+    .stage.done {
+      color: var(--mint);
+    }
+
+    .stage.done .dot {
+      background: var(--mint);
+      box-shadow: none;
+      animation: none;
+    }
+
+    .stage.error {
+      color: var(--red);
+    }
+
+    .stage.error .dot {
+      background: var(--red);
+      box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
+      animation: none;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 3px rgba(255, 180, 84, 0.18);
+      }
+
+      50% {
+        box-shadow: 0 0 0 6px rgba(255, 180, 84, 0.05);
+      }
+    }
+
+    /* ---------- Main layout ---------- */
+    .layout {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 190px 1fr 1fr;
+      gap: 14px;
+      min-height: 0;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .panel-head {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-soft);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* ---------- Sidebar / examples ---------- */
+    .sidebar .panel-head {
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .examples {
+      display: flex;
+      flex-direction: column;
+      padding: 8px;
+      gap: 3px;
+      overflow-y: auto;
+    }
+
+    .example-btn {
+      text-align: left;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-dim);
+      font-size: 12.5px;
+      padding: 9px 10px;
+      border-radius: 7px;
+    }
+
+    .example-btn:hover {
+      background: var(--panel-2);
+      color: var(--text);
+      border-color: var(--border-soft);
+    }
+
+    .example-btn.active {
+      background: rgba(255, 180, 84, 0.08);
+      color: var(--amber);
+      border-color: var(--amber-dim);
+    }
+
+    .example-btn .ex-desc {
+      display: block;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      color: var(--text-faint);
+      margin-top: 2px;
+    }
+
+    .sidebar-foot {
+      margin-top: auto;
+      padding: 12px 14px;
+      border-top: 1px solid var(--border-soft);
+      font-family: var(--mono);
+      font-size: 10.5px;
+      color: var(--text-faint);
+      line-height: 1.6;
+    }
+
+    .sidebar-foot b {
+      color: var(--text-dim);
+    }
+
+    /* ---------- Editor ---------- */
+    .editor-wrap {
+      flex: 1;
+      display: flex;
+      min-height: 0;
+    }
+
+    .gutter {
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 21px;
+      color: #3D4459;
+      text-align: right;
+      padding: 14px 10px 14px 0;
+      user-select: none;
+      overflow: hidden;
+      background: var(--panel);
+      min-width: 38px;
+      white-space: pre;
+    }
+
+    #editor {
+      flex: 1;
+      resize: none;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 21px;
+      padding: 14px 14px 14px 6px;
+      tab-size: 4;
+      white-space: pre;
+    }
+
+    /* ---------- Output ---------- */
+    .tabs {
+      display: flex;
+      gap: 2px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      color: var(--text-faint);
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 9px;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-dim);
+    }
+
+    .tab-btn.active {
+      background: var(--panel-2);
+      color: var(--amber);
+    }
+
+    .output-body {
+      flex: 1;
+      overflow: auto;
+      padding: 14px;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      line-height: 1.7;
+    }
+
+    .out-line {
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: var(--text);
+    }
+
+    .empty-state {
+      color: var(--text-faint);
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+
+    .error-box {
+      border: 1px solid var(--red-dim);
+      background: rgba(255, 107, 107, 0.06);
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: #FFB3B3;
+    }
+
+    .error-box .err-stage {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 6px;
+    }
+
+    .error-box .err-msg {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      color: #FFD4D4;
+    }
+
+    pre.code-view {
+      margin: 0;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--text-dim);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    pre.code-view .k {
+      color: var(--amber);
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #232A3A;
+      border-radius: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #2E3750;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+        overflow-y: auto;
+      }
+
+      .sidebar {
+        order: 1;
+        max-height: 160px;
+      }
+
+      .examples {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+      }
+
+      .example-btn {
+        min-width: 150px;
+      }
+
+      #editor-panel {
+        order: 2;
+        min-height: 260px;
+      }
+
+      #output-panel {
+        order: 3;
+        min-height: 260px;
+      }
+
+      .app {
+        height: auto;
+        min-height: 100vh;
+      }
+
+      .pipeline {
+        display: none;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="app">
+  <div class="app">
 
-  <div class="topbar">
-    <div class="brand">
-      <div class="mark">Code<span>P</span></div>
-      <div class="tagline">tokenizer → parser → interpreter, running live in your browser</div>
-    </div>
+    <div class="topbar">
+      <div class="brand">
+        <div class="mark">Code<span>P</span></div>
+        <div class="tagline">tokenizer → parser → interpreter, running live in your browser</div>
+      </div>
 
-    <div class="pipeline" id="pipeline">
-      <div class="stage" data-stage="tokenize"><span class="dot"></span>tokenize</div>
-      <div class="stage" data-stage="parse"><span class="dot"></span>parse</div>
-      <div class="stage" data-stage="interpret"><span class="dot"></span>interpret</div>
-    </div>
+      <div class="pipeline" id="pipeline">
+        <div class="stage" data-stage="tokenize"><span class="dot"></span>tokenize</div>
+        <div class="stage" data-stage="parse"><span class="dot"></span>parse</div>
+        <div class="stage" data-stage="interpret"><span class="dot"></span>interpret</div>
+      </div>
 
-    <div class="topbar-actions">
-      <button id="clearBtn">Clear output</button>
-      <button id="runBtn" class="btn-run">▶ Run <kbd>Ctrl ⏎</kbd></button>
-    </div>
-  </div>
-
-  <div class="layout">
-
-    <div class="panel sidebar">
-      <div class="panel-head">Examples</div>
-      <div class="examples" id="examples"></div>
-      <div class="sidebar-foot">
-        Keywords: <b>tri</b> · <b>def</b> · <b>if / elif / else</b> · <b>while</b> · <b>do</b> · <b>for</b> · <b>return</b> · <b>write()</b>
+      <div class="topbar-actions">
+        <button id="clearBtn">Clear output</button>
+        <button id="runBtn" class="btn-run">▶ Run <kbd>Ctrl ⏎</kbd></button>
       </div>
     </div>
 
-    <div class="panel" id="editor-panel">
-      <div class="panel-head">
-        <span>main.codep</span>
-      </div>
-      <div class="editor-wrap">
-        <div class="gutter" id="gutter">1</div>
-        <textarea id="editor" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
-      </div>
-    </div>
+    <div class="layout">
 
-    <div class="panel" id="output-panel">
-      <div class="panel-head">
-        <span>Result</span>
-        <div class="tabs">
-          <button class="tab-btn active" data-tab="output">Output</button>
-          <button class="tab-btn" data-tab="ast">AST</button>
-          <button class="tab-btn" data-tab="compiled">Compiled JS</button>
+      <div class="panel sidebar">
+        <div class="panel-head">Examples</div>
+        <div class="examples" id="examples"></div>
+        <div class="sidebar-foot">
+          Keywords: <b>tri</b> · <b>def</b> · <b>if / elif / else</b> · <b>while</b> · <b>do</b> · <b>for</b> ·
+          <b>return</b> · <b>write()</b>
         </div>
       </div>
-      <div class="output-body" id="outputBody">
-        <div class="empty-state">// press Run to execute — output from write() shows up here</div>
+
+      <div class="panel" id="editor-panel">
+        <div class="panel-head">
+          <span>main.codep</span>
+        </div>
+        <div class="editor-wrap">
+          <div class="gutter" id="gutter">1</div>
+          <textarea id="editor" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+        </div>
       </div>
+
+      <div class="panel" id="output-panel">
+        <div class="panel-head">
+          <span>Result</span>
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="output">Output</button>
+            <button class="tab-btn" data-tab="ast">AST</button>
+            <button class="tab-btn" data-tab="compiled">Compiled JS</button>
+          </div>
+        </div>
+        <div class="output-body" id="outputBody">
+          <div class="empty-state">// press Run to execute — output from write() shows up here</div>
+        </div>
+      </div>
+
     </div>
-
   </div>
-</div>
 
-<script>
-/* =========================================================================
-   CodeP language runtime — Tokenizer, Environment, Parser, Interpreter,
-   Generator. Ported as-is from the project source, ES module import/export
-   stripped so it runs directly in the browser with no build step.
-   ========================================================================= */
+  <script>
+    /* =========================================================================
+       CodeP language runtime — Tokenizer, Environment, Parser, Interpreter,
+       Generator. Ported as-is from the project source, ES module import/export
+       stripped so it runs directly in the browser with no build step.
+       ========================================================================= */
 
-const Spec = [
-    [/^\s+/, null],
-    [/^\/\/.*/, null],
-    [/^\/\*[\s\S]*?\*\//, null],
-    [/^;/, ";"],
-    [/^{/, "{"],
-    [/^}/, "}"],
-    [/^\(/, "("],
-    [/^\)/, ")"],
-    [/^\[/, "["],
-    [/^\]/, "]"],
-    [/^,/, ","],
-    [/^\./, "."],
-    [/^\?/, "?"],
-    [/^:/, ":"],
-    [/^[<>]=?/, "RELATIONAL_OPERATOR"],
-    [/^[=!]=/, "EQUALITY_OPERATOR"],
-    [/^&&/, "LOGICAL_AND"],
-    [/^\|\|/, "LOGICAL_OR"],
-    [/^!/, "LOGICAL_NOT"],
-    [/^\btri\b/, "let"],
-    [/^\bif\b/, "if"],
-    [/^\belif\b/, "elif"],
-    [/^\belse\b/, "else"],
-    [/^\btrue\b/, "true"],
-    [/^\bfalse\b/, "false"],
-    [/^\bnull\b/, "null"],
-    [/^\bclass\b/, "class"],
-    [/^\bthis\b/, "this"],
-    [/^\bextends\b/, "extends"],
-    [/^\bsuper\b/, "super"],
-    [/^\bnew\b/, "new"],
-    [/^\bmodule\b/, "module"],
-    [/^\bimport\b/, "import"],
-    [/^\bwhile\b/, "while"],
-    [/^\bdo\b/, "do"],
-    [/^\bfor\b/, "for"],
-    [/^\bdef\b/, "def"],
-    [/^\breturn\b/, "return"],
-    [/^=/, "SIMPLE_ASSIGN"],
-    [/^[\*\\/\+\-]=/, "COMPLEX_ASSIGN"],
-    [/^[+\-]/, "ADDITIVE_OPERATOR"],
-    [/^[*\/]/, "MULTIPLICATIVE_OPERATOR"],
-    [/^%/, "MODULO_OPERATOR"],
-    [/^\d+/, "NUMBER"],
-    [/^"[^"]*"/, "STRING"],
-    [/^'[^']*'/, "STRING"],
-    [/^\w+/, "IDENTIFIER"],
-];
+    const Spec = [
+      [/^\s+/, null],
+      [/^\/\/.*/, null],
+      [/^\/\*[\s\S]*?\*\//, null],
+      [/^;/, ";"],
+      [/^{/, "{"],
+      [/^}/, "}"],
+      [/^\(/, "("],
+      [/^\)/, ")"],
+      [/^\[/, "["],
+      [/^\]/, "]"],
+      [/^,/, ","],
+      [/^\./, "."],
+      [/^\?/, "?"],
+      [/^:/, ":"],
+      [/^[<>]=?/, "RELATIONAL_OPERATOR"],
+      [/^[=!]=/, "EQUALITY_OPERATOR"],
+      [/^&&/, "LOGICAL_AND"],
+      [/^\|\|/, "LOGICAL_OR"],
+      [/^!/, "LOGICAL_NOT"],
+      [/^\btri\b/, "let"],
+      [/^\bif\b/, "if"],
+      [/^\belif\b/, "elif"],
+      [/^\belse\b/, "else"],
+      [/^\btrue\b/, "true"],
+      [/^\bfalse\b/, "false"],
+      [/^\bnull\b/, "null"],
+      [/^\bclass\b/, "class"],
+      [/^\bthis\b/, "this"],
+      [/^\bextends\b/, "extends"],
+      [/^\bsuper\b/, "super"],
+      [/^\bnew\b/, "new"],
+      [/^\bmodule\b/, "module"],
+      [/^\bimport\b/, "import"],
+      [/^\bwhile\b/, "while"],
+      [/^\bdo\b/, "do"],
+      [/^\bfor\b/, "for"],
+      [/^\bdef\b/, "def"],
+      [/^\breturn\b/, "return"],
+      [/^=/, "SIMPLE_ASSIGN"],
+      [/^[\*\\/\+\-]=/, "COMPLEX_ASSIGN"],
+      [/^[+\-]/, "ADDITIVE_OPERATOR"],
+      [/^[*\/]/, "MULTIPLICATIVE_OPERATOR"],
+      [/^%/, "MODULO_OPERATOR"],
+      [/^\d+/, "NUMBER"],
+      [/^"[^"]*"/, "STRING"],
+      [/^'[^']*'/, "STRING"],
+      [/^\w+/, "IDENTIFIER"],
+    ];
 
-class Tokenizer {
-    init(string) {
+    class Tokenizer {
+      init(string) {
         this._string = string;
         this._cursor = 0;
         this._line = 1;
         this._column = 1;
-    }
-    isEOF() { return this._cursor == this._string.length; }
-    hasMoreTokens() { return this._cursor < this._string.length; }
-    getNextToken() {
+      }
+      isEOF() { return this._cursor == this._string.length; }
+      hasMoreTokens() { return this._cursor < this._string.length; }
+      getNextToken() {
         if (!this.hasMoreTokens()) return null;
         const string = this._string.slice(this._cursor);
         const start = this._getLocation();
         for (const [regexp, tokenType] of Spec) {
-            const tokenValue = this._match(regexp, string);
-            if (tokenValue == null) continue;
-            if (tokenType == null) return this.getNextToken();
-            return { type: tokenType, value: tokenValue, loc: { start, end: this._getLocation() } };
+          const tokenValue = this._match(regexp, string);
+          if (tokenValue == null) continue;
+          if (tokenType == null) return this.getNextToken();
+          return { type: tokenType, value: tokenValue, loc: { start, end: this._getLocation() } };
         }
         throw new SyntaxError(`Unexpected token: "${string[0]}" at line ${start.line}, column ${start.column}`);
-    }
-    _match(regexp, string) {
+      }
+      _match(regexp, string) {
         const matched = regexp.exec(string);
         if (matched == null) return null;
         this._cursor += matched[0].length;
         this._advancePosition(matched[0]);
         return matched[0];
-    }
-    _advancePosition(value) {
+      }
+      _advancePosition(value) {
         for (const char of value) {
-            if (char === "\n") { this._line += 1; this._column = 1; }
-            else { this._column += 1; }
+          if (char === "\n") { this._line += 1; this._column = 1; }
+          else { this._column += 1; }
         }
+      }
+      _getLocation() { return { line: this._line, column: this._column, offset: this._cursor }; }
     }
-    _getLocation() { return { line: this._line, column: this._column, offset: this._cursor }; }
-}
 
-class Environment {
-    constructor(record = {}, parent = null) { this.record = record; this.parent = parent; }
-    define(name, value) { this.record[name] = value; return value; }
-    lookup(name) { return this.resolve(name).record[name]; }
-    assign(name, value) { this.resolve(name).record[name] = value; return value; }
-    resolve(name) {
+    class Environment {
+      constructor(record = {}, parent = null) { this.record = record; this.parent = parent; }
+      define(name, value) { this.record[name] = value; return value; }
+      lookup(name) { return this.resolve(name).record[name]; }
+      assign(name, value) { this.resolve(name).record[name] = value; return value; }
+      resolve(name) {
         if (this.record.hasOwnProperty(name)) return this;
         if (this.parent == null) throw new ReferenceError(`Variable "${name}" is not defined.`);
         return this.parent.resolve(name);
+      }
     }
-}
 
-class Parser {
-    constructor() { this._string = ""; this._tokenizer = new Tokenizer(); this._lookahead = null; this._prevToken = null; }
-    parse(string) {
+    class Parser {
+      constructor() { this._string = ""; this._tokenizer = new Tokenizer(); this._lookahead = null; this._prevToken = null; }
+      parse(string) {
         this._string = string;
         this._tokenizer.init(this._string);
         this._lookahead = this._tokenizer.getNextToken();
         this._prevToken = null;
         return this.Program();
-    }
-    Program() {
+      }
+      Program() {
         const start = this._lookahead ? this._lookahead : { line: 1, column: 1, offset: 0 };
         const body = this.StatementList();
         return this._node(start, { type: "Program", body }, this._prevToken ?? start);
-    }
-    StatementList(stopLookAhead = null) {
+      }
+      StatementList(stopLookAhead = null) {
         const statementList = [];
         if (this._lookahead == null || this._lookahead.type === stopLookAhead) return statementList;
         statementList.push(this.Statement());
         while (this._lookahead != null && this._lookahead.type !== stopLookAhead) statementList.push(this.Statement());
         return statementList;
-    }
-    Statement() {
+      }
+      Statement() {
         if (this._lookahead == null) throw this._syntaxError("Unexpected end of input", this._prevToken);
         switch (this._lookahead.type) {
-            case "{": return this.BlockStatement();
-            case ";": return this.EmptyStatement();
-            case "let": return this.VariableStatement();
-            case "if": return this.IfStatement();
-            case "def": return this.FucntionDeclaration();
-            case "return": return this.ReturnStatement();
-            case "class": return this.ClassDeclaration();
-            case "while": case "do": case "for": return this.IterationStatement();
-            case "module": return this.ModuleStatement();
-            case "import": return this.ImportStatement();
-            default: return this.ExpressionStatement();
+          case "{": return this.BlockStatement();
+          case ";": return this.EmptyStatement();
+          case "let": return this.VariableStatement();
+          case "if": return this.IfStatement();
+          case "def": return this.FucntionDeclaration();
+          case "return": return this.ReturnStatement();
+          case "class": return this.ClassDeclaration();
+          case "while": case "do": case "for": return this.IterationStatement();
+          case "module": return this.ModuleStatement();
+          case "import": return this.ImportStatement();
+          default: return this.ExpressionStatement();
         }
-    }
-    ImportStatement() {
+      }
+      ImportStatement() {
         const startToken = this._lookahead; this._eat("import");
         const name = this.Identifier();
         return this._node(startToken, { type: "ImportStatement", name });
-    }
-    ModuleStatement() {
+      }
+      ModuleStatement() {
         const startToken = this._lookahead; this._eat("module");
         const name = this.Identifier();
         const body = this.BlockStatement();
         return this._node(startToken, { type: "ModuleDeclaration", name, body });
-    }
-    BlockStatement() {
+      }
+      BlockStatement() {
         const startToken = this._lookahead; this._eat("{");
         const body = this._lookahead.type !== "}" ? this.StatementList("}") : [];
         this._eat("}");
         return this._node(startToken, { type: "BlockStatement", body });
-    }
-    EmptyStatement() {
+      }
+      EmptyStatement() {
         const startToken = this._lookahead; this._eat(";");
         return this._node(startToken, { type: "EmptyStatement" });
-    }
-    VariableStatement() {
+      }
+      VariableStatement() {
         const variableStatement = this.VariableStatementInit();
         this._eat(";");
         return variableStatement;
-    }
-    VariableStatementInit() {
+      }
+      VariableStatementInit() {
         const startToken = this._lookahead; this._eat("let");
         const declarations = this.VariableDeclarationList();
         return this._node(startToken, { type: "VariableStatement", declarations });
-    }
-    VariableDeclarationList() {
+      }
+      VariableDeclarationList() {
         const declarations = [];
         do { declarations.push(this.VariableDeclaration()); } while (this._lookahead.type === "," && this._eat(","));
         return declarations;
-    }
-    VariableDeclaration() {
+      }
+      VariableDeclaration() {
         const startToken = this._lookahead;
         const id = this.Identifier();
         const init = this._lookahead.type !== ";" && this._lookahead.type !== "," ? this.VariableInitilizer() : null;
         return this._node(startToken, { type: "VariableDeclaration", id, init });
-    }
-    VariableInitilizer() { this._eat("SIMPLE_ASSIGN"); return this.AssignmentExpression(); }
-    IfStatement() {
+      }
+      VariableInitilizer() { this._eat("SIMPLE_ASSIGN"); return this.AssignmentExpression(); }
+      IfStatement() {
         const startToken = this._lookahead; this._eat("if"); this._eat("(");
         const test = this.Expression(); this._eat(")");
         const consequent = this.Statement();
         let alternate = this._lookahead != null ? this._CheckElifOrElseStatement() : null;
         return this._node(startToken, { type: "IfStatement", test, consequent, alternate });
-    }
-    _CheckElifOrElseStatement() {
+      }
+      _CheckElifOrElseStatement() {
         if (this._lookahead == null) return null;
         switch (this._lookahead.type) {
-            case "elif": return this.ElifStatement();
-            case "else": return this.ElseStatement();
-            default: return null;
+          case "elif": return this.ElifStatement();
+          case "else": return this.ElseStatement();
+          default: return null;
         }
-    }
-    ElifStatement() {
+      }
+      ElifStatement() {
         const startToken = this._lookahead; this._eat("elif"); this._eat("(");
         const test = this.Expression(); this._eat(")");
         const consequent = this.Statement();
         let alternate = this._lookahead != null ? this._CheckElifOrElseStatement() : null;
         return this._node(startToken, { type: "IfStatement", test, consequent, alternate });
-    }
-    ElseStatement() { this._eat("else"); return this.Statement(); }
-    IterationStatement() {
+      }
+      ElseStatement() { this._eat("else"); return this.Statement(); }
+      IterationStatement() {
         if (this._lookahead == null) return null;
         switch (this._lookahead.type) {
-            case "while": return this.WhileStatement();
-            case "do": return this.DoWhileStatement();
-            case "for": return this.ForStatement();
-            default: return null;
+          case "while": return this.WhileStatement();
+          case "do": return this.DoWhileStatement();
+          case "for": return this.ForStatement();
+          default: return null;
         }
-    }
-    WhileStatement() {
+      }
+      WhileStatement() {
         const startToken = this._lookahead; this._eat("while"); this._eat("(");
         let test = this.Expression(); this._eat(")");
         let body = this.Statement();
         return this._node(startToken, { type: "WhileStatement", test, body });
-    }
-    DoWhileStatement() {
+      }
+      DoWhileStatement() {
         const startToken = this._lookahead; this._eat("do");
         let body = this.Statement();
         this._eat("while"); this._eat("(");
         let test = this.Expression(); this._eat(")"); this._eat(";");
         return this._node(startToken, { type: "DoWhileStatement", body, test });
-    }
-    ForStatement() {
+      }
+      ForStatement() {
         const startToken = this._lookahead; this._eat("for"); this._eat("(");
         let init = this._lookahead.type !== ";" ? this.ForStatementInit() : null;
         this._eat(";");
@@ -658,12 +818,12 @@ class Parser {
         this._eat(")");
         let body = this.Statement();
         return this._node(startToken, { type: "ForStatement", init, test, update, body });
-    }
-    ForStatementInit() {
+      }
+      ForStatementInit() {
         if (this._lookahead.type === "let") return this.VariableStatementInit();
         return this.Expression();
-    }
-    FucntionDeclaration() {
+      }
+      FucntionDeclaration() {
         const startToken = this._lookahead; this._eat("def");
         const name = this.Identifier();
         this._eat("(");
@@ -671,46 +831,46 @@ class Parser {
         this._eat(")");
         const body = this.BlockStatement();
         return this._node(startToken, { type: "FunctionDeclaration", name, params, body });
-    }
-    FormalParameterList() {
+      }
+      FormalParameterList() {
         let params = [];
         do { params.push(this.Identifier()); } while (this._lookahead.type === "," && this._eat(","));
         return params;
-    }
-    ReturnStatement() {
+      }
+      ReturnStatement() {
         const startToken = this._lookahead; this._eat("return");
         let argument = this._lookahead.type !== ";" ? this.Expression() : null;
         this._eat(";");
         return this._node(startToken, { type: "ReturnStatement", argument });
-    }
-    ClassDeclaration() {
+      }
+      ClassDeclaration() {
         const startToken = this._lookahead; this._eat("class");
         const id = this.Identifier();
         const superClass = this._lookahead.type === "extends" ? this.ClassExtends() : null;
         const body = this.BlockStatement();
         return this._node(startToken, { type: "ClassDeclaration", id, superClass, body });
-    }
-    ClassExtends() { this._eat("extends"); return this.Identifier(); }
-    ExpressionStatement() {
+      }
+      ClassExtends() { this._eat("extends"); return this.Identifier(); }
+      ExpressionStatement() {
         const startToken = this._lookahead;
         const expression = this.Expression();
         this._eat(";");
         return this._node(startToken, { type: "ExpressionStatement", expression });
-    }
-    Expression() { return this.AssignmentExpression(); }
-    AssignmentExpression() {
+      }
+      Expression() { return this.AssignmentExpression(); }
+      AssignmentExpression() {
         const left = this.ConditionalExpression();
         if (this._lookahead == null || !this._isAssignmentOperator(this._lookahead.type)) return left;
         const operator = this.AssignmentOperator().value;
         const right = this.AssignmentExpression();
         return this._nodeFromNodes(left, right, {
-            type: "AssignmentExpression",
-            operator,
-            left: this._checkValidAssignmentTarget(left),
-            right,
+          type: "AssignmentExpression",
+          operator,
+          left: this._checkValidAssignmentTarget(left),
+          right,
         });
-    }
-    ConditionalExpression() {
+      }
+      ConditionalExpression() {
         let test = this.LogicalORExpression();
         if (this._lookahead != null && this._lookahead.type === "?") this._eat("?");
         else return test;
@@ -718,264 +878,264 @@ class Parser {
         this._eat(":");
         let alternate = this.Expression();
         return this._nodeFromNodes(test, alternate, { type: "ConditionalExpression", test, consequent, alternate });
-    }
-    LogicalORExpression() {
+      }
+      LogicalORExpression() {
         let left = this.LogicalANDExpression();
         while (this._lookahead != null && this._lookahead.type === "LOGICAL_OR") {
-            const operator = this._eat("LOGICAL_OR").value;
-            const right = this.LogicalANDExpression();
-            left = this._nodeFromNodes(left, right, { type: "LogicalORExpression", operator, left, right });
+          const operator = this._eat("LOGICAL_OR").value;
+          const right = this.LogicalANDExpression();
+          left = this._nodeFromNodes(left, right, { type: "LogicalORExpression", operator, left, right });
         }
         return left;
-    }
-    LogicalANDExpression() {
+      }
+      LogicalANDExpression() {
         let left = this.EqualityExpression();
         while (this._lookahead != null && this._lookahead.type === "LOGICAL_AND") {
-            const operator = this._eat("LOGICAL_AND").value;
-            const right = this.EqualityExpression();
-            left = this._nodeFromNodes(left, right, { type: "LogicalANDExpression", operator, left, right });
+          const operator = this._eat("LOGICAL_AND").value;
+          const right = this.EqualityExpression();
+          left = this._nodeFromNodes(left, right, { type: "LogicalANDExpression", operator, left, right });
         }
         return left;
-    }
-    EqualityExpression() {
+      }
+      EqualityExpression() {
         let left = this.RelationalExpression();
         while (this._lookahead != null && this._lookahead.type === "EQUALITY_OPERATOR") {
-            const operator = this._eat("EQUALITY_OPERATOR").value;
-            const right = this.RelationalExpression();
-            left = this._nodeFromNodes(left, right, { type: "BinaryExpression", operator, left, right });
+          const operator = this._eat("EQUALITY_OPERATOR").value;
+          const right = this.RelationalExpression();
+          left = this._nodeFromNodes(left, right, { type: "BinaryExpression", operator, left, right });
         }
         return left;
-    }
-    RelationalExpression() {
+      }
+      RelationalExpression() {
         let left = this.AdditiveExpression();
         while (this._lookahead != null && this._lookahead.type == "RELATIONAL_OPERATOR") {
-            const operator = this._eat("RELATIONAL_OPERATOR").value;
-            const right = this.AdditiveExpression();
-            left = this._nodeFromNodes(left, right, { type: "BinaryExpression", operator, left, right });
+          const operator = this._eat("RELATIONAL_OPERATOR").value;
+          const right = this.AdditiveExpression();
+          left = this._nodeFromNodes(left, right, { type: "BinaryExpression", operator, left, right });
         }
         return left;
-    }
-    AdditiveExpression() {
+      }
+      AdditiveExpression() {
         let left = this.ModuloExpreesion();
         while (this._lookahead != null && this._lookahead.type === "ADDITIVE_OPERATOR") {
-            const operator = this._eat("ADDITIVE_OPERATOR").value;
-            const right = this.ModuloExpreesion();
-            left = this._nodeFromNodes(left, right, { type: "BinaryExpression", operator, left, right });
+          const operator = this._eat("ADDITIVE_OPERATOR").value;
+          const right = this.ModuloExpreesion();
+          left = this._nodeFromNodes(left, right, { type: "BinaryExpression", operator, left, right });
         }
         return left;
-    }
-    ModuloExpreesion() {
+      }
+      ModuloExpreesion() {
         let left = this.MultipicativeExpression();
         while (this._lookahead != null && this._lookahead.type === "MODULO_OPERATOR") {
-            const operator = this._eat("MODULO_OPERATOR").value;
-            const right = this.MultipicativeExpression();
-            left = this._nodeFromNodes(left, right, { type: "BinaryExpression", operator, left, right });
+          const operator = this._eat("MODULO_OPERATOR").value;
+          const right = this.MultipicativeExpression();
+          left = this._nodeFromNodes(left, right, { type: "BinaryExpression", operator, left, right });
         }
         return left;
-    }
-    MultipicativeExpression() {
+      }
+      MultipicativeExpression() {
         let left = this.UnaryExpression();
         while (this._lookahead != null && this._lookahead.type === "MULTIPLICATIVE_OPERATOR") {
-            const operator = this._eat("MULTIPLICATIVE_OPERATOR").value;
-            const right = this.UnaryExpression();
-            left = this._nodeFromNodes(left, right, { type: "BinaryExpression", operator, left, right });
+          const operator = this._eat("MULTIPLICATIVE_OPERATOR").value;
+          const right = this.UnaryExpression();
+          left = this._nodeFromNodes(left, right, { type: "BinaryExpression", operator, left, right });
         }
         return left;
-    }
-    UnaryExpression() {
+      }
+      UnaryExpression() {
         let operator;
         if (this._lookahead == null) throw this._syntaxError("Unexpected end of input", this._prevToken);
         switch (this._lookahead.type) {
-            case "ADDITIVE_OPERATOR": operator = this._eat("ADDITIVE_OPERATOR").value; break;
-            case "LOGICAL_NOT": operator = this._eat("LOGICAL_NOT").value; break;
+          case "ADDITIVE_OPERATOR": operator = this._eat("ADDITIVE_OPERATOR").value; break;
+          case "LOGICAL_NOT": operator = this._eat("LOGICAL_NOT").value; break;
         }
         if (operator != null) {
-            return this._node(this._prevToken, { type: "UnaryExpression", operator, argument: this.UnaryExpression() });
+          return this._node(this._prevToken, { type: "UnaryExpression", operator, argument: this.UnaryExpression() });
         }
         return this._CallMemberExpression();
-    }
-    _CallMemberExpression() {
+      }
+      _CallMemberExpression() {
         const member = this.MemberExpression();
         if (this._lookahead != null && this._lookahead.type === "(") return this._CallExpression(member);
         return member;
-    }
-    _CallExpression(calle) {
+      }
+      _CallExpression(calle) {
         let callExpression = this._node(this._prevToken, { type: "CallExpression", calle, arguments: this.Arguments() });
         callExpression.loc.end = this._clonePosition(this._prevToken.loc.end);
         if (this._lookahead != null && this._lookahead.type === "(") callExpression = this._CallExpression(callExpression);
         return callExpression;
-    }
-    Arguments() {
+      }
+      Arguments() {
         this._eat("(");
         const argumentList = this._lookahead != null && this._lookahead.type !== ")" ? this.ArgumentsList() : [];
         this._eat(")");
         return argumentList;
-    }
-    ArgumentsList() {
+      }
+      ArgumentsList() {
         const argumentList = [];
         do { argumentList.push(this.AssignmentExpression()); } while (this._lookahead != null && this._lookahead.type === "," && this._eat(","));
         return argumentList;
-    }
-    MemberExpression() {
+      }
+      MemberExpression() {
         let object = this.PrimaryExpression();
         while (this._lookahead != null && (this._lookahead.type === "." || this._lookahead.type === "[")) {
-            if (this._lookahead.type === ".") {
-                this._eat(".");
-                const property = this.Identifier();
-                object = this._nodeFromNodes(object, property, { type: "MemberExpression", computed: false, object, property });
-            } else {
-                this._eat("[");
-                const property = this.Expression();
-                this._eat("]");
-                object = this._nodeFromNodes(object, property, { type: "MemberExpression", computed: true, object, property });
-                object.loc.end = this._clonePosition(this._prevToken.loc.end);
-            }
+          if (this._lookahead.type === ".") {
+            this._eat(".");
+            const property = this.Identifier();
+            object = this._nodeFromNodes(object, property, { type: "MemberExpression", computed: false, object, property });
+          } else {
+            this._eat("[");
+            const property = this.Expression();
+            this._eat("]");
+            object = this._nodeFromNodes(object, property, { type: "MemberExpression", computed: true, object, property });
+            object.loc.end = this._clonePosition(this._prevToken.loc.end);
+          }
         }
         return object;
-    }
-    PrimaryExpression() {
+      }
+      PrimaryExpression() {
         if (this._lookahead == null) throw this._syntaxError("Unexpected end of input", this._prevToken);
         if (this._isLiteral(this._lookahead.type)) return this.Literal();
         switch (this._lookahead.type) {
-            case "IDENTIFIER": return this.Identifier();
-            case "(": return this.ParethesizedExpression();
-            case "this": return this.ThisExpression();
-            case "new": return this.NewExpression();
-            default: throw this._syntaxError(`Unexpected primary expression`, this._lookahead);
+          case "IDENTIFIER": return this.Identifier();
+          case "(": return this.ParethesizedExpression();
+          case "this": return this.ThisExpression();
+          case "new": return this.NewExpression();
+          default: throw this._syntaxError(`Unexpected primary expression`, this._lookahead);
         }
-    }
-    ThisExpression() { const token = this._eat("this"); return this._node(token, { type: "ThisExpression" }); }
-    Super() { const token = this._eat("super"); return this._node(token, { type: "Super" }); }
-    NewExpression() {
+      }
+      ThisExpression() { const token = this._eat("this"); return this._node(token, { type: "ThisExpression" }); }
+      Super() { const token = this._eat("super"); return this._node(token, { type: "Super" }); }
+      NewExpression() {
         const startToken = this._lookahead; this._eat("new");
         return this._node(startToken, { type: "NewExpression", callee: this.MemberExpression(), arguments: this.Arguments() });
-    }
-    ParethesizedExpression() { this._eat("("); const expression = this.Expression(); this._eat(")"); return expression; }
-    _isAssignmentOperator(node) { return node === "SIMPLE_ASSIGN" || node === "COMPLEX_ASSIGN"; }
-    AssignmentOperator() {
+      }
+      ParethesizedExpression() { this._eat("("); const expression = this.Expression(); this._eat(")"); return expression; }
+      _isAssignmentOperator(node) { return node === "SIMPLE_ASSIGN" || node === "COMPLEX_ASSIGN"; }
+      AssignmentOperator() {
         if (this._lookahead != null && this._lookahead.type === "SIMPLE_ASSIGN") return this._eat("SIMPLE_ASSIGN");
         return this._eat("COMPLEX_ASSIGN");
-    }
-    _checkValidAssignmentTarget(node) {
+      }
+      _checkValidAssignmentTarget(node) {
         if (node.type === "Identifier" || node.type === "MemberExpression") return node;
         throw this._syntaxError("Invalid left-hand side in assignment expression", node);
-    }
-    Identifier() { const token = this._eat("IDENTIFIER"); return this._node(token, { type: "Identifier", name: token.value }); }
-    _isLiteral(tokenType) {
+      }
+      Identifier() { const token = this._eat("IDENTIFIER"); return this._node(token, { type: "Identifier", name: token.value }); }
+      _isLiteral(tokenType) {
         return tokenType === "NUMBER" || tokenType === "STRING" || tokenType === "true" || tokenType === "false" || tokenType === "null";
-    }
-    Literal() {
+      }
+      Literal() {
         if (this._lookahead == null) throw this._syntaxError("Unexpected end of input", this._prevToken);
         switch (this._lookahead.type) {
-            case "NUMBER": return this.NumericLiteral();
-            case "STRING": return this.StringLiteral();
-            case "true": return this.BooleanLiteral(true);
-            case "false": return this.BooleanLiteral(false);
-            case "null": return this.NullLiteral();
+          case "NUMBER": return this.NumericLiteral();
+          case "STRING": return this.StringLiteral();
+          case "true": return this.BooleanLiteral(true);
+          case "false": return this.BooleanLiteral(false);
+          case "null": return this.NullLiteral();
         }
         throw this._syntaxError(`Literal: unexpected literal production.`, this._lookahead);
-    }
-    NumericLiteral() { const token = this._eat("NUMBER"); return this._node(token, { type: "NumericLiteral", value: Number(token.value) }); }
-    StringLiteral() { const token = this._eat("STRING"); return this._node(token, { type: "StringLiteral", value: token.value.slice(1, -1) }); }
-    BooleanLiteral(value) { const token = this._eat(value ? "true" : "false"); return this._node(token, { type: "BooleanLiteral", value }); }
-    NullLiteral() { const token = this._eat("null"); return this._node(token, { type: "NullLiteral", value: null }); }
-    _eat(tokenType) {
+      }
+      NumericLiteral() { const token = this._eat("NUMBER"); return this._node(token, { type: "NumericLiteral", value: Number(token.value) }); }
+      StringLiteral() { const token = this._eat("STRING"); return this._node(token, { type: "StringLiteral", value: token.value.slice(1, -1) }); }
+      BooleanLiteral(value) { const token = this._eat(value ? "true" : "false"); return this._node(token, { type: "BooleanLiteral", value }); }
+      NullLiteral() { const token = this._eat("null"); return this._node(token, { type: "NullLiteral", value: null }); }
+      _eat(tokenType) {
         const token = this._lookahead;
         if (token == null) throw this._syntaxError(`Unexpected end of input, expected: "${tokenType}"`, this._prevToken ? this._prevToken.loc.end : null);
         if (token.type !== tokenType) throw this._syntaxError(`Unexpected token: "${token.value}", expected: "${tokenType}"`, token);
         this._lookahead = this._tokenizer.getNextToken();
         this._prevToken = token;
         return token;
-    }
-    _node(startTokenOrLoc, node, endTokenOrLoc = this._prevToken) {
+      }
+      _node(startTokenOrLoc, node, endTokenOrLoc = this._prevToken) {
         return { ...node, loc: { start: this._extractStart(startTokenOrLoc), end: this._extractEnd(endTokenOrLoc ?? startTokenOrLoc) } };
-    }
-    _nodeFromNodes(startNode, endNode, node) {
+      }
+      _nodeFromNodes(startNode, endNode, node) {
         return { ...node, loc: { start: this._clonePosition(startNode.loc.start), end: this._clonePosition(endNode.loc.end) } };
-    }
-    _extractStart(tokenOrLoc) { const loc = tokenOrLoc && tokenOrLoc.loc ? tokenOrLoc.loc.start : tokenOrLoc; return this._clonePosition(loc); }
-    _extractEnd(tokenOrLoc) { const loc = tokenOrLoc && tokenOrLoc.loc ? tokenOrLoc.loc.end : tokenOrLoc; return this._clonePosition(loc); }
-    _clonePosition(position) { return position ? { line: position.line, column: position.column, offset: position.offset } : null; }
-    _syntaxError(message, tokenOrLoc) {
+      }
+      _extractStart(tokenOrLoc) { const loc = tokenOrLoc && tokenOrLoc.loc ? tokenOrLoc.loc.start : tokenOrLoc; return this._clonePosition(loc); }
+      _extractEnd(tokenOrLoc) { const loc = tokenOrLoc && tokenOrLoc.loc ? tokenOrLoc.loc.end : tokenOrLoc; return this._clonePosition(loc); }
+      _clonePosition(position) { return position ? { line: position.line, column: position.column, offset: position.offset } : null; }
+      _syntaxError(message, tokenOrLoc) {
         const loc = tokenOrLoc && tokenOrLoc.loc ? tokenOrLoc.loc.start : tokenOrLoc;
         const suffix = loc ? ` at line ${loc.line}, column ${loc.column}` : "";
         return new SyntaxError(`${message}${suffix}`);
+      }
     }
-}
 
-class Interpreter {
-    constructor(global) { this.global = global; }
-    interpret(node) { return this.StatementList(node); }
-    StatementList(body, env = this.global) {
+    class Interpreter {
+      constructor(global) { this.global = global; }
+      interpret(node) { return this.StatementList(node); }
+      StatementList(body, env = this.global) {
         let result;
         for (const statement of body) result = this.Statement(statement, env);
         return result;
-    }
-    Statement(node, env) {
+      }
+      Statement(node, env) {
         switch (node.type) {
-            case "ExpressionStatement": return this.ExpressionStatement(node.expression, env);
-            case "VariableStatement": return this.VariableStatement(node.declarations, env);
-            case "BlockStatement": return this.BlockStatement(node.body, env);
-            case "IfStatement": return this.IfStatement(node, env);
-            case "ConditionalExpression": return this.ConditionalExpression(node, env);
-            case "WhileStatement": return this.WhileStatement(node, env);
-            case "DoWhileStatement": return this.DoWhileStatement(node, env);
-            case "ForStatement": return this.ForStatement(node, env);
-            case "FunctionDeclaration": return this.FunctionDeclaration(node, env);
-            case "ReturnStatement": return this.ReturnStatement(node, env);
-            default: throw new SyntaxError(`Unknown type : ${node.type}`);
+          case "ExpressionStatement": return this.ExpressionStatement(node.expression, env);
+          case "VariableStatement": return this.VariableStatement(node.declarations, env);
+          case "BlockStatement": return this.BlockStatement(node.body, env);
+          case "IfStatement": return this.IfStatement(node, env);
+          case "ConditionalExpression": return this.ConditionalExpression(node, env);
+          case "WhileStatement": return this.WhileStatement(node, env);
+          case "DoWhileStatement": return this.DoWhileStatement(node, env);
+          case "ForStatement": return this.ForStatement(node, env);
+          case "FunctionDeclaration": return this.FunctionDeclaration(node, env);
+          case "ReturnStatement": return this.ReturnStatement(node, env);
+          default: throw new SyntaxError(`Unknown type : ${node.type}`);
         }
-    }
-    FunctionDeclaration(node, env) {
+      }
+      FunctionDeclaration(node, env) {
         let name = node.name.name;
         let functionBody = { name, params: node.params, body: node.body, env };
         return env.define(name, functionBody);
-    }
-    ReturnStatement(node, env) { return this.Expression(node.argument, env); }
-    ForStatement(node, env) {
+      }
+      ReturnStatement(node, env) { return this.Expression(node.argument, env); }
+      ForStatement(node, env) {
         let res;
         for (this.Statement(node.init, env); this.Expression(node.test, env); this.Expression(node.update, env)) {
-            res = this.Statement(node.body, env);
+          res = this.Statement(node.body, env);
         }
         return res;
-    }
-    ConditionalExpression(node, env) {
+      }
+      ConditionalExpression(node, env) {
         return this.Expression(node.test, env) ? this.Expression(node.consequent, env) : this.Expression(node.alternate, env);
-    }
-    IfStatement(node, env) {
+      }
+      IfStatement(node, env) {
         const testResult = this.Expression(node.test, env);
         if (testResult) return this.Statement(node.consequent, env);
         else if (node.alternate) return this.Statement(node.alternate, env);
         else return null;
-    }
-    BlockStatement(node, env) {
+      }
+      BlockStatement(node, env) {
         const blockEnv = new Environment({}, env);
         return this.StatementList(node, blockEnv);
-    }
-    VariableStatement(node, env) { return node.map((declaration) => this.VariableDeclaration(declaration, env)); }
-    VariableDeclaration(node, env) {
+      }
+      VariableStatement(node, env) { return node.map((declaration) => this.VariableDeclaration(declaration, env)); }
+      VariableDeclaration(node, env) {
         let id = node.id.name;
         let init = node.init !== null ? this.Expression(node.init, env) : 0;
         env.define(id, init);
-    }
-    ExpressionStatement(expression, env) { return this.Expression(expression, env); }
-    Expression(node, env) {
+      }
+      ExpressionStatement(expression, env) { return this.Expression(expression, env); }
+      Expression(node, env) {
         switch (node.type) {
-            case "NumericLiteral": return this.NumericLiteral(node);
-            case "StringLiteral": return this.StringLiteral(node);
-            case "BooleanLiteral": return this.BooleanLiteral(node);
-            case "NullLiteral": return this.NullLiteral(node);
-            case "Identifier": return this.Identifier(node, env);
-            case "AssignmentExpression": return this.AssignmentExpression(node, env);
-            case "BinaryExpression":
-            case "LogicalORExpression":
-            case "LogicalANDExpression":
-                return this.BinaryExpression(node, env);
-            case "CallExpression": return this.CallExpression(node, env);
-            default: throw new SyntaxError(`Unknown statement type : ${node.type}`);
+          case "NumericLiteral": return this.NumericLiteral(node);
+          case "StringLiteral": return this.StringLiteral(node);
+          case "BooleanLiteral": return this.BooleanLiteral(node);
+          case "NullLiteral": return this.NullLiteral(node);
+          case "Identifier": return this.Identifier(node, env);
+          case "AssignmentExpression": return this.AssignmentExpression(node, env);
+          case "BinaryExpression":
+          case "LogicalORExpression":
+          case "LogicalANDExpression":
+            return this.BinaryExpression(node, env);
+          case "CallExpression": return this.CallExpression(node, env);
+          default: throw new SyntaxError(`Unknown statement type : ${node.type}`);
         }
-    }
-    CallExpression(node, env) {
+      }
+      CallExpression(node, env) {
         if (node.calle.name == "write") return this.callWriteExpression(node, env);
         let fn = env.lookup(node.calle.name);
         let args = node.arguments.map((a) => this.Expression(a, env));
@@ -984,218 +1144,218 @@ class Interpreter {
         params.forEach((param, index) => { activationRecord[param] = args[index]; });
         const acenv = new Environment(activationRecord, fn.env);
         return this.Statement(fn.body, acenv);
-    }
-    callWriteExpression(node, env) {
+      }
+      callWriteExpression(node, env) {
         let args = node.arguments.map((a) => this.Expression(a, env));
         return console.log(...args);
-    }
-    WhileStatement(node, env) {
+      }
+      WhileStatement(node, env) {
         let result;
         while (this.Expression(node.test, env)) result = this.Statement(node.body, env);
         return result;
-    }
-    DoWhileStatement(node, env) {
+      }
+      DoWhileStatement(node, env) {
         let res;
         do { res = this.Statement(node.body, env); } while (this.Expression(node.test, env));
         return res;
-    }
-    BinaryExpression(node, env) {
+      }
+      BinaryExpression(node, env) {
         switch (node.operator) {
-            case "+": case "-": case "*": case "/": case "%":
-                return this.MathExpression(node, env);
-            case "==": case "!=": case "<": case ">": case "<=": case ">=":
-                return this.RelationalExpression(node, env);
-            case "&&": return this.Expression(node.left, env) && this.Expression(node.right, env);
-            case "||": return this.Expression(node.left, env) || this.Expression(node.right, env);
-            default: throw new SyntaxError(`Unknown operator: ${node.operator}`);
+          case "+": case "-": case "*": case "/": case "%":
+            return this.MathExpression(node, env);
+          case "==": case "!=": case "<": case ">": case "<=": case ">=":
+            return this.RelationalExpression(node, env);
+          case "&&": return this.Expression(node.left, env) && this.Expression(node.right, env);
+          case "||": return this.Expression(node.left, env) || this.Expression(node.right, env);
+          default: throw new SyntaxError(`Unknown operator: ${node.operator}`);
         }
-    }
-    RelationalExpression(node, env) {
+      }
+      RelationalExpression(node, env) {
         let left = this.Expression(node.left, env);
         let right = this.Expression(node.right, env);
         switch (node.operator) {
-            case "==": return left == right;
-            case "!=": return left != right;
-            case "<": return left < right;
-            case ">": return left > right;
-            case "<=": return left <= right;
-            case ">=": return left >= right;
+          case "==": return left == right;
+          case "!=": return left != right;
+          case "<": return left < right;
+          case ">": return left > right;
+          case "<=": return left <= right;
+          case ">=": return left >= right;
         }
-    }
-    MathExpression(node, env) {
+      }
+      MathExpression(node, env) {
         let left = this.Expression(node.left, env);
         let right = this.Expression(node.right, env);
         switch (node.operator) {
-            case "+": return left + right;
-            case "-": return left - right;
-            case "*": return left * right;
-            case "/": return left / right;
-            case "%": return left % right;
+          case "+": return left + right;
+          case "-": return left - right;
+          case "*": return left * right;
+          case "/": return left / right;
+          case "%": return left % right;
         }
-    }
-    AssignmentExpression(node, env) {
+      }
+      AssignmentExpression(node, env) {
         if (node.operator == "=") return this.SimpleAssign(node, env);
         else return this.ComplexAssign(node, env);
-    }
-    SimpleAssign(node, env) {
+      }
+      SimpleAssign(node, env) {
         const varname = node.left.name;
         const value = this.Expression(node.right, env);
         env.assign(varname, value);
         return value;
-    }
-    ComplexAssign(node, env) {
+      }
+      ComplexAssign(node, env) {
         let left = node.left.name;
         let right = this.Expression(node.right, env);
         const operator = node.operator[0];
         const leftvalue = env.lookup(left);
         if (typeof right == "string" && typeof leftvalue == "string" && operator !== "+") {
-            throw new SyntaxError("Invalid operation");
+          throw new SyntaxError("Invalid operation");
         }
         switch (operator) {
-            case "+": right = leftvalue + right; break;
-            case "-": right = leftvalue - right; break;
-            case "*": right = leftvalue * right; break;
-            case "/": right = leftvalue / right; break;
+          case "+": right = leftvalue + right; break;
+          case "-": right = leftvalue - right; break;
+          case "*": right = leftvalue * right; break;
+          case "/": right = leftvalue / right; break;
         }
         env.assign(left, right);
         return right;
+      }
+      Identifier(node, env) { return env.lookup(node.name); }
+      NumericLiteral(node) { return node.value; }
+      StringLiteral(node) { return node.value; }
+      BooleanLiteral(node) { return node.value; }
+      NullLiteral(node) { return node.value; }
     }
-    Identifier(node, env) { return env.lookup(node.name); }
-    NumericLiteral(node) { return node.value; }
-    StringLiteral(node) { return node.value; }
-    BooleanLiteral(node) { return node.value; }
-    NullLiteral(node) { return node.value; }
-}
 
-function freshGlobalEnvironment() {
-    return new Environment({ null: null, true: true, false: false, version: 1.0 });
-}
+    function freshGlobalEnvironment() {
+      return new Environment({ null: null, true: true, false: false, version: 1.0 });
+    }
 
-/* ---- Generator: AST -> readable JS, used for the "Compiled JS" tab ---- */
-class Generator {
-    generate(node) { return this.StatementsList(node).join('\n'); }
-    StatementsList(body) { return body.map((s) => this.Statement(s)); }
-    Statement(node) {
+    /* ---- Generator: AST -> readable JS, used for the "Compiled JS" tab ---- */
+    class Generator {
+      generate(node) { return this.StatementsList(node).join('\n'); }
+      StatementsList(body) { return body.map((s) => this.Statement(s)); }
+      Statement(node) {
         switch (node.type) {
-            case 'ExpressionStatement': return this.ExpressionStatement(node.expression) + ';';
-            case 'BlockStatement': return this.BlockStatement(node.body);
-            case 'VariableStatement': return this.VariableStatement(node.declarations);
-            case 'EmptyStatement': return this.EmptyStatement();
-            case 'IfStatement': return this.IfStatement(node);
-            case 'WhileStatement': return this.WhileStatement(node);
-            case 'DoWhileStatement': return this.DoWhileStatement(node);
-            case 'ForStatement': return this.ForStatement(node);
-            case 'FunctionDeclaration': return this.FunctionDeclaration(node);
-            case 'ReturnStatement': return this.ReturnStatement(node.argument);
-            default: return '';
+          case 'ExpressionStatement': return this.ExpressionStatement(node.expression) + ';';
+          case 'BlockStatement': return this.BlockStatement(node.body);
+          case 'VariableStatement': return this.VariableStatement(node.declarations);
+          case 'EmptyStatement': return this.EmptyStatement();
+          case 'IfStatement': return this.IfStatement(node);
+          case 'WhileStatement': return this.WhileStatement(node);
+          case 'DoWhileStatement': return this.DoWhileStatement(node);
+          case 'ForStatement': return this.ForStatement(node);
+          case 'FunctionDeclaration': return this.FunctionDeclaration(node);
+          case 'ReturnStatement': return this.ReturnStatement(node.argument);
+          default: return '';
         }
-    }
-    BlockStatement(body) { return '\n' + this.StatementsList(body).join('\n') + '\n'; }
-    EmptyStatement() { return `;`; }
-    VariableStatement(declarations) { return `let ` + declarations.map((s) => this.VariableDeclarations(s)).join(',') + `;`; }
-    VariableDeclarations(node) {
+      }
+      BlockStatement(body) { return '\n' + this.StatementsList(body).join('\n') + '\n'; }
+      EmptyStatement() { return `;`; }
+      VariableStatement(declarations) { return `let ` + declarations.map((s) => this.VariableDeclarations(s)).join(',') + `;`; }
+      VariableDeclarations(node) {
         let id = node.id.name;
         let init = node.init !== null ? this.Expression(node.init) : 0;
         return `${id} = ${init}`;
-    }
-    IfStatement(node) {
+      }
+      IfStatement(node) {
         let test = this.Expression(node.test);
         let consequent = this.Statement(node.consequent);
         let alternate = this.ElseStatement(node.alternate);
         return `if (${test}) {\n  ${consequent}\n}${alternate}`;
-    }
-    ElseStatement(node) {
+      }
+      ElseStatement(node) {
         if (node == null) return '';
         let alternate = this.Statement(node);
         return `else {${alternate}}`;
-    }
-    WhileStatement(node) {
+      }
+      WhileStatement(node) {
         let test = this.Expression(node.test);
         let body = this.Statement(node.body);
         return `while(${test}) {\n ${body} \n}`;
-    }
-    DoWhileStatement(node) {
+      }
+      DoWhileStatement(node) {
         let body = this.Statement(node.body);
         let test = this.Expression(node.test);
         return `do {\n ${body} \n} \n while(${test});`;
-    }
-    ForStatement(node) {
+      }
+      ForStatement(node) {
         let init = node.init != null ? this.InitForStatement(node.init) : '';
         let test = node.test != null ? this.Expression(node.test) : '';
         let update = node.update != null ? this.Expression(node.update) : '';
         let body = this.Statement(node.body);
         if (init[init.length - 1] != ';') init += ';';
         return `for(${init} ${test}; ${update}){\n ${body} \n}`;
-    }
-    InitForStatement(node) {
+      }
+      InitForStatement(node) {
         switch (node.type) {
-            case ('VariableStatement'): return this.VariableStatement(node.declarations);
-            default: return this.Expression(node);
+          case ('VariableStatement'): return this.VariableStatement(node.declarations);
+          default: return this.Expression(node);
         }
-    }
-    FunctionDeclaration(node) {
+      }
+      FunctionDeclaration(node) {
         let name = this.Identifier(node.name);
         let params = this.FunctionParamsList(node.params);
         let body = this.BlockStatement(node.body.body);
         return `function ${name} (${params}) {\n ${body} \n}`;
-    }
-    FunctionParamsList(params) { return params.map((p) => this.Identifier(p)).join(','); }
-    ReturnStatement(node) {
+      }
+      FunctionParamsList(params) { return params.map((p) => this.Identifier(p)).join(','); }
+      ReturnStatement(node) {
         let argument = node != null ? this.Expression(node) : '';
         return `return ${argument};`;
-    }
-    ExpressionStatement(expression) { return this.Expression(expression); }
-    Expression(expression) {
+      }
+      ExpressionStatement(expression) { return this.Expression(expression); }
+      Expression(expression) {
         switch (expression.type) {
-            case 'NumericLiteral': return this.NumericLiteral(expression);
-            case 'StringLiteral': return this.StringLiteral(expression);
-            case 'BooleanLiteral': return this.BooleanLiteral(expression);
-            case 'NullLiteral': return this.NullLiteral(expression);
-            case 'Identifier': return this.Identifier(expression);
-            case 'BinaryExpression': return this.BinaryExpression(expression);
-            case 'AssignmentExpression': return this.AssignmentExpression(expression);
-            case 'ConditionalExpression': return this.ConditionalExpression(expression);
-            case 'LogicalORExpression': case 'LogicalANDExpression': return this.BinaryExpression(expression);
-            case 'UnaryExpression': return this.UnaryExpression(expression);
-            case 'MemberExpression': return this.MemberExpression(expression);
-            case 'CallExpression': return this.CallExpression(expression);
-            default: return '';
+          case 'NumericLiteral': return this.NumericLiteral(expression);
+          case 'StringLiteral': return this.StringLiteral(expression);
+          case 'BooleanLiteral': return this.BooleanLiteral(expression);
+          case 'NullLiteral': return this.NullLiteral(expression);
+          case 'Identifier': return this.Identifier(expression);
+          case 'BinaryExpression': return this.BinaryExpression(expression);
+          case 'AssignmentExpression': return this.AssignmentExpression(expression);
+          case 'ConditionalExpression': return this.ConditionalExpression(expression);
+          case 'LogicalORExpression': case 'LogicalANDExpression': return this.BinaryExpression(expression);
+          case 'UnaryExpression': return this.UnaryExpression(expression);
+          case 'MemberExpression': return this.MemberExpression(expression);
+          case 'CallExpression': return this.CallExpression(expression);
+          default: return '';
         }
-    }
-    CallExpression(node) {
+      }
+      CallExpression(node) {
         let calle = this.Expression(node.calle);
         let argument = this.Arguments(node.arguments);
         if (calle === 'write') calle = 'console.log';
         return `${calle}(${argument})`;
-    }
-    Arguments(node) { return node.map((a) => this.Expression(a)).join(','); }
-    MemberExpression(node) {
+      }
+      Arguments(node) { return node.map((a) => this.Expression(a)).join(','); }
+      MemberExpression(node) {
         let object = this.Expression(node.object);
         if (node.computed) return `${object}[${this.Expression(node.property)}]`;
         return `${object}.${this.Identifier(node.property)}`;
-    }
-    ConditionalExpression(node) {
+      }
+      ConditionalExpression(node) {
         return `${this.Expression(node.test)} ? ${this.Expression(node.consequent)} : ${this.Expression(node.alternate)}`;
+      }
+      AssignmentExpression(node) { return `${this.Expression(node.left)} ${node.operator} ${this.Expression(node.right)}`; }
+      BinaryExpression(node) { return `(${this.Expression(node.left)} ${node.operator} ${this.Expression(node.right)})`; }
+      UnaryExpression(node) { return `${node.operator}(${this.Expression(node.argument)})`; }
+      NumericLiteral(node) { return node.value.toString(); }
+      StringLiteral(node) { return `"${node.value}"`; }
+      BooleanLiteral(node) { return `${node.value}`; }
+      NullLiteral(node) { return `${node.value}`; }
+      Identifier(node) { return node.name; }
     }
-    AssignmentExpression(node) { return `${this.Expression(node.left)} ${node.operator} ${this.Expression(node.right)}`; }
-    BinaryExpression(node) { return `(${this.Expression(node.left)} ${node.operator} ${this.Expression(node.right)})`; }
-    UnaryExpression(node) { return `${node.operator}(${this.Expression(node.argument)})`; }
-    NumericLiteral(node) { return node.value.toString(); }
-    StringLiteral(node) { return `"${node.value}"`; }
-    BooleanLiteral(node) { return `${node.value}`; }
-    NullLiteral(node) { return `${node.value}`; }
-    Identifier(node) { return node.name; }
-}
 
-/* =========================================================================
-   UI wiring
-   ========================================================================= */
+    /* =========================================================================
+       UI wiring
+       ========================================================================= */
 
-const examples = [
-  {
-    name: "Factorial",
-    desc: "recursion",
-    code: `tri res;
+    const examples = [
+      {
+        name: "Factorial",
+        desc: "recursion",
+        code: `tri res;
 def fact(n){
   if(n==0){
     return 1;
@@ -1206,11 +1366,11 @@ def fact(n){
 res = fact(5);
 write(res);
 `
-  },
-  {
-    name: "FizzBuzz",
-    desc: "loops · modulo · &&",
-    code: `for(tri i=1; i<=15; i+=1){
+      },
+      {
+        name: "FizzBuzz",
+        desc: "loops · modulo · &&",
+        code: `for(tri i=1; i<=15; i+=1){
   if(i%3==0 && i%5==0){
     write("FizzBuzz");
   }elif(i%3==0){
@@ -1222,11 +1382,11 @@ write(res);
   }
 }
 `
-  },
-  {
-    name: "Sum 1 to N",
-    desc: "for loop",
-    code: `tri n = 10;
+      },
+      {
+        name: "Sum 1 to N",
+        desc: "for loop",
+        code: `tri n = 10;
 tri sum = 0;
 for(tri i=1; i<=n; i+=1){
   sum += i;
@@ -1234,11 +1394,11 @@ for(tri i=1; i<=n; i+=1){
 write("Sum:");
 write(sum);
 `
-  },
-  {
-    name: "Grade checker",
-    desc: "elif chain",
-    code: `tri marks = 75;
+      },
+      {
+        name: "Grade checker",
+        desc: "elif chain",
+        code: `tri marks = 75;
 
 if(marks >= 90){
   write("A grade");
@@ -1248,198 +1408,223 @@ if(marks >= 90){
   write("Needs improvement");
 }
 `
-  },
-  {
-    name: "Countdown",
-    desc: "do-while",
-    code: `tri i = 5;
+      },
+      {
+        name: "Countdown",
+        desc: "do-while",
+        code: `tri i = 5;
 do{
   write(i);
   i -= 1;
 }while(i > 0);
 write("Liftoff!");
 `
-  },
-];
+      },
+    ];
 
-const editor = document.getElementById('editor');
-const gutter = document.getElementById('gutter');
-const runBtn = document.getElementById('runBtn');
-const clearBtn = document.getElementById('clearBtn');
-const outputBody = document.getElementById('outputBody');
-const examplesEl = document.getElementById('examples');
-const tabs = document.querySelectorAll('.tab-btn');
+    const editor = document.getElementById('editor');
+    const gutter = document.getElementById('gutter');
+    const runBtn = document.getElementById('runBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const outputBody = document.getElementById('outputBody');
+    const examplesEl = document.getElementById('examples');
+    const tabs = document.querySelectorAll('.tab-btn');
 
-let lastRun = { logs: [], ast: null, compiled: null, error: null };
-let activeTab = 'output';
-let activeExampleIndex = 0;
+    let lastRun = { logs: [], ast: null, compiled: null, error: null };
+    let activeTab = 'output';
+    let activeExampleIndex = 0;
 
-const STORAGE_KEY = 'codep-playground-code';
+    const STORAGE_KEY = 'codep-playground-code';
+    const EXAMPLE_STORAGE_KEY = "codep-example-cache";
 
-function saveCode(){
-  try { localStorage.setItem(STORAGE_KEY, editor.value); } catch (e) { /* storage unavailable, ignore */ }
-}
+    let exampleCache = {};
 
-function renderExamples(){
-  examplesEl.innerHTML = '';
-  examples.forEach((ex, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'example-btn' + (i === activeExampleIndex ? ' active' : '');
-    btn.innerHTML = `${ex.name}<span class="ex-desc">${ex.desc}</span>`;
-    btn.addEventListener('click', () => {
-      activeExampleIndex = i;
-      editor.value = ex.code;
-      saveCode();
-      updateGutter();
-      renderExamples();
-      editor.focus();
-    });
-    examplesEl.appendChild(btn);
-  });
-}
-renderExamples();
-
-let savedCode = null;
-try { savedCode = localStorage.getItem(STORAGE_KEY); } catch (e) { /* storage unavailable, ignore */ }
-editor.value = savedCode || examples[0].code;
-
-function updateGutter(){
-  const lines = editor.value.split('\n').length;
-  let out = '';
-  for(let i=1; i<=lines; i++) out += i + '\n';
-  gutter.textContent = out;
-}
-updateGutter();
-editor.addEventListener('input', () => { updateGutter(); saveCode(); });
-editor.addEventListener('scroll', () => { gutter.scrollTop = editor.scrollTop; });
-editor.addEventListener('keydown', (e) => {
-  if (e.key === 'Tab') {
-    e.preventDefault();
-    const start = editor.selectionStart, end = editor.selectionEnd;
-    editor.value = editor.value.slice(0, start) + '    ' + editor.value.slice(end);
-    editor.selectionStart = editor.selectionEnd = start + 4;
-    updateGutter();
-    saveCode();
-  }
-});
-window.addEventListener('keydown', (e) => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); runCode(); }
-});
-
-function setStage(stage, state){
-  const el = document.querySelector(`.stage[data-stage="${stage}"]`);
-  if(!el) return;
-  el.classList.remove('active','done','error');
-  if(state) el.classList.add(state);
-}
-function resetPipeline(){ ['tokenize','parse','interpret'].forEach(s => setStage(s, null)); }
-function delay(ms){ return new Promise(r => setTimeout(r, ms)); }
-
-function formatValue(v){
-  if (v === null) return 'null';
-  if (v === undefined) return 'undefined';
-  return String(v);
-}
-
-function escapeHtml(str){
-  return String(str).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-
-function switchTab(tab){
-  activeTab = tab;
-  tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
-  render();
-}
-tabs.forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
-
-function render(){
-  if (lastRun.error){
-    outputBody.innerHTML = `<div class="error-box"><div class="err-stage">${lastRun.error.stage} error</div><div class="err-msg">${escapeHtml(lastRun.error.message)}</div></div>`;
-    return;
-  }
-  if (activeTab === 'output'){
-    if (!lastRun.logs.length){
-      outputBody.innerHTML = `<div class="empty-state">// no output — try calling write(...) in your code</div>`;
-      return;
+    try {
+      exampleCache = JSON.parse(localStorage.getItem(EXAMPLE_STORAGE_KEY)) || {};
+    } catch {
+      exampleCache = {};
     }
-    outputBody.innerHTML = lastRun.logs.map((line) =>
-      `<div class="out-line">${escapeHtml(line)}</div>`
-    ).join('');
-  } else if (activeTab === 'ast'){
-    outputBody.innerHTML = lastRun.ast
-      ? `<pre class="code-view">${escapeHtml(JSON.stringify(lastRun.ast, null, 2))}</pre>`
-      : `<div class="empty-state">// run your code to see the AST</div>`;
-  } else if (activeTab === 'compiled'){
-    outputBody.innerHTML = lastRun.compiled
-      ? `<pre class="code-view">${escapeHtml(lastRun.compiled)}</pre>`
-      : `<div class="empty-state">// run your code to see the compiled JavaScript</div>`;
-  }
-}
 
-async function runCode(){
-  const code = editor.value;
-  runBtn.disabled = true;
-  resetPipeline();
-  lastRun = { logs: [], ast: null, compiled: null, error: null };
+    function saveCode() {
+      exampleCache[activeExampleIndex] = editor.value;
 
-  await delay(40);
-  setStage('tokenize', 'active');
-  await delay(150);
-  try {
-    const tk = new Tokenizer();
-    tk.init(code);
-    while (tk.hasMoreTokens()) tk.getNextToken();
-  } catch (e) {
-    setStage('tokenize', 'error');
-    lastRun.error = { stage: 'Tokenizing', message: e.message };
-    render(); runBtn.disabled = false; return;
-  }
-  setStage('tokenize', 'done');
+      try {
+        localStorage.setItem(
+          EXAMPLE_STORAGE_KEY,
+          JSON.stringify(exampleCache)
+        );
+      } catch { }
+    }
 
-  setStage('parse', 'active');
-  await delay(150);
-  let ast;
-  try {
-    const parser = new Parser();
-    ast = parser.parse(code);
-  } catch (e) {
-    setStage('parse', 'error');
-    lastRun.error = { stage: 'Parsing', message: e.message };
-    render(); runBtn.disabled = false; return;
-  }
-  setStage('parse', 'done');
-  lastRun.ast = ast;
-  try { lastRun.compiled = new Generator().generate(ast.body); } catch (e) { lastRun.compiled = `// could not compile: ${e.message}`; }
+    function renderExamples() {
+      examplesEl.innerHTML = '';
+      examples.forEach((ex, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'example-btn' + (i === activeExampleIndex ? ' active' : '');
+        btn.innerHTML = `${ex.name}<span class="ex-desc">${ex.desc}</span>`;
+        btn.addEventListener("click", () => {
 
-  setStage('interpret', 'active');
-  await delay(150);
-  const originalLog = console.log;
-  const captured = [];
-  console.log = (...args) => { captured.push(args.map(formatValue).join(' ')); };
-  try {
-    const interpreter = new Interpreter(freshGlobalEnvironment());
-    interpreter.interpret(ast.body);
-    setStage('interpret', 'done');
-  } catch (e) {
-    setStage('interpret', 'error');
-    lastRun.error = { stage: 'Running', message: e.message };
-    console.log = originalLog;
-    render(); runBtn.disabled = false; return;
-  }
-  console.log = originalLog;
-  lastRun.logs = captured;
-  render();
-  runBtn.disabled = false;
-}
+          // Save current example before switching
+          saveCode();
 
-runBtn.addEventListener('click', runCode);
-clearBtn.addEventListener('click', () => {
-  lastRun = { logs: [], ast: null, compiled: null, error: null };
-  resetPipeline();
-  render();
-});
+          activeExampleIndex = i;
 
-render();
-</script>
+          // Load saved version if it exists
+          editor.value = exampleCache[i] ?? ex.code;
+
+          updateGutter();
+          renderExamples();
+          editor.focus();
+        });
+        examplesEl.appendChild(btn);
+      });
+    }
+    renderExamples();
+
+    // let savedCode = null;
+    // try { savedCode = localStorage.getItem(STORAGE_KEY); } catch (e) { /* storage unavailable, ignore */ }
+    // editor.value = savedCode || examples[0].code;
+    editor.value = exampleCache[0] ?? examples[0].code;
+
+
+    function updateGutter() {
+      const lines = editor.value.split('\n').length;
+      let out = '';
+      for (let i = 1; i <= lines; i++) out += i + '\n';
+      gutter.textContent = out;
+    }
+    updateGutter();
+    editor.addEventListener('input', () => { updateGutter(); saveCode(); });
+    editor.addEventListener('scroll', () => { gutter.scrollTop = editor.scrollTop; });
+    editor.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const start = editor.selectionStart, end = editor.selectionEnd;
+        editor.value = editor.value.slice(0, start) + '    ' + editor.value.slice(end);
+        editor.selectionStart = editor.selectionEnd = start + 4;
+        updateGutter();
+        saveCode();
+      }
+    });
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); runCode(); }
+    });
+
+    function setStage(stage, state) {
+      const el = document.querySelector(`.stage[data-stage="${stage}"]`);
+      if (!el) return;
+      el.classList.remove('active', 'done', 'error');
+      if (state) el.classList.add(state);
+    }
+    function resetPipeline() { ['tokenize', 'parse', 'interpret'].forEach(s => setStage(s, null)); }
+    function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    function formatValue(v) {
+      if (v === null) return 'null';
+      if (v === undefined) return 'undefined';
+      return String(v);
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function switchTab(tab) {
+      activeTab = tab;
+      tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+      render();
+    }
+    tabs.forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
+
+    function render() {
+      if (lastRun.error) {
+        outputBody.innerHTML = `<div class="error-box"><div class="err-stage">${lastRun.error.stage} error</div><div class="err-msg">${escapeHtml(lastRun.error.message)}</div></div>`;
+        return;
+      }
+      if (activeTab === 'output') {
+        if (!lastRun.logs.length) {
+          outputBody.innerHTML = `<div class="empty-state">// no output — try calling write(...) in your code</div>`;
+          return;
+        }
+        outputBody.innerHTML = lastRun.logs.map((line) =>
+          `<div class="out-line">${escapeHtml(line)}</div>`
+        ).join('');
+      } else if (activeTab === 'ast') {
+        outputBody.innerHTML = lastRun.ast
+          ? `<pre class="code-view">${escapeHtml(JSON.stringify(lastRun.ast, null, 2))}</pre>`
+          : `<div class="empty-state">// run your code to see the AST</div>`;
+      } else if (activeTab === 'compiled') {
+        outputBody.innerHTML = lastRun.compiled
+          ? `<pre class="code-view">${escapeHtml(lastRun.compiled)}</pre>`
+          : `<div class="empty-state">// run your code to see the compiled JavaScript</div>`;
+      }
+    }
+
+    async function runCode() {
+      const code = editor.value;
+      runBtn.disabled = true;
+      resetPipeline();
+      lastRun = { logs: [], ast: null, compiled: null, error: null };
+
+      await delay(40);
+      setStage('tokenize', 'active');
+      await delay(150);
+      try {
+        const tk = new Tokenizer();
+        tk.init(code);
+        while (tk.hasMoreTokens()) tk.getNextToken();
+      } catch (e) {
+        setStage('tokenize', 'error');
+        lastRun.error = { stage: 'Tokenizing', message: e.message };
+        render(); runBtn.disabled = false; return;
+      }
+      setStage('tokenize', 'done');
+
+      setStage('parse', 'active');
+      await delay(150);
+      let ast;
+      try {
+        const parser = new Parser();
+        ast = parser.parse(code);
+      } catch (e) {
+        setStage('parse', 'error');
+        lastRun.error = { stage: 'Parsing', message: e.message };
+        render(); runBtn.disabled = false; return;
+      }
+      setStage('parse', 'done');
+      lastRun.ast = ast;
+      try { lastRun.compiled = new Generator().generate(ast.body); } catch (e) { lastRun.compiled = `// could not compile: ${e.message}`; }
+
+      setStage('interpret', 'active');
+      await delay(150);
+      const originalLog = console.log;
+      const captured = [];
+      console.log = (...args) => { captured.push(args.map(formatValue).join(' ')); };
+      try {
+        const interpreter = new Interpreter(freshGlobalEnvironment());
+        interpreter.interpret(ast.body);
+        setStage('interpret', 'done');
+      } catch (e) {
+        setStage('interpret', 'error');
+        lastRun.error = { stage: 'Running', message: e.message };
+        console.log = originalLog;
+        render(); runBtn.disabled = false; return;
+      }
+      console.log = originalLog;
+      lastRun.logs = captured;
+      render();
+      runBtn.disabled = false;
+    }
+
+    runBtn.addEventListener('click', runCode);
+    clearBtn.addEventListener('click', () => {
+      lastRun = { logs: [], ast: null, compiled: null, error: null };
+      resetPipeline();
+      render();
+    });
+
+    render();
+  </script>
 </body>
+
 </html>
